@@ -1,0 +1,24 @@
+Exercice 1
+1- Démarrer un conteneur à partir d'une image ubuntu et mettre à jour ubuntu sur le container.
+2- Ecrire un fichier dans le container.
+3- Créer et démarrer un serveur web de votre choix à l'intérieur de votre conteneur
+    -> docker run -it --name=server_web ubuntu => pour démarrer un  container
+    -> mise à jour de la distribution
+    -> installation node et npm => apt-get install node && apt-get install npm
+    -> création d'un fichier index.js pour démarrer un serveur web à partir du framework js express (installation de express par la commande npm install express)
+
+
+d'autre types de network de docker ee
+driver overlay
+
+On shouaite gérer plusieurs hôtes avec docker dessus
+
+driver macvlan
+
+le réseau à utiliser si les applications ont besoin d'un accès réseau physique
+
+le macvlan attribue des adresses mac au container et communique avec eux à l'aide l'adresse mac
+
+Exercice 2
+-Créer une image à partir d'une image base de données
+-Au moment du build de l'image, on copie et on execute un fichier sql qui permet de créer une table et inserer des données.

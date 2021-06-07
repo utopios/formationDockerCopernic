@@ -1,0 +1,11 @@
+version: "3.9"
+services: 
+    d1:
+        image: nginx
+        ports: 
+            - "3002:80"
+    d2:
+        image: debian
+        environment: 
+            ENV1: "value of env1"
+        entrypoint: bash

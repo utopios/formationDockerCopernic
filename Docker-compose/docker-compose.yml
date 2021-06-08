@@ -16,4 +16,15 @@ services:
         environment: 
             POSTGRES_USER: "user"
             POSTGRES_PASSWORD: "password"
+        volumes: 
+            - "data:/var/lib/postgresql/data"
+    appweb2:
+        image: httpd
+        ports: 
+            - "9999:80"
+        volumes: 
+            - "./app-web/src:/usr/local/apache2/htdocs/"
+
+volumes: 
+    data:
 

@@ -5,12 +5,16 @@ services:
         container_name: d1nginx
         ports: 
             - "3002:80"
+        networks: 
+            - front-network
     appweb:
         build: ./app-web
         container_name: appweb
         # entrypoint: "bash"
         ports: 
             - "9090:80"
+        networks: 
+            - front-network
     postgresdb:
         image: postgres
         container_name: postgresdb
@@ -24,6 +28,8 @@ services:
             - "./data-postgres:/var/lib/postgresql/data"
         # links: 
         #     - appwebnode
+        networks: 
+            - data-network
     appweb2:
         container_name: appweb2
         image: httpd
@@ -31,16 +37,33 @@ services:
             - "9999:80"
         volumes: 
             - "./app-web/src:/usr/local/apache2/htdocs/"
+        networks: 
+            - back-network
+            - front-network
     appwebnode:
         build: ./app-web-node
         ports: 
             - "4000:3000"
         depends_on: 
             - postgresdb
+        volumes: 
+            - "./health-check:/app/health-check"
         restart: always
+        healthcheck:
+            # test: "command de test qui peut être dans un fichier de script"
+            test : /app/health-check/app-node.sh
+            interval: "2s"
+        networks: 
+            - back-network
+            - data-network
         # links: 
         #     - postgresdb
 
 volumes: 
     data:
+
+networks: 
+    front-network:
+    back-network:
+    data-network:
 

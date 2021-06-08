@@ -8,7 +8,7 @@ COPY package-lock.json .
 COPY index.js .
 
 RUN npm install 
-
+RUN apk add --no-cache --upgrade bash
 RUN apk add curl
 
 EXPOSE 3000

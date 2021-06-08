@@ -51,7 +51,7 @@ services:
         restart: always
         healthcheck:
             # test: "command de test qui peut être dans un fichier de script"
-            test : /app/health-check/app-node.sh
+            test : "curl --fail http://localhost:3000"
             interval: "2s"
         networks: 
             - back-network

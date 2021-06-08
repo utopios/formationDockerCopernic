@@ -10,6 +10,8 @@ services:
             - "6000:80"
         
     result:
-        build:
+        build: ./result
+        ports:
+            - "6001:4000"
     worker:
         build: 

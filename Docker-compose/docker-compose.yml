@@ -4,8 +4,16 @@ services:
         image: nginx
         ports: 
             - "3002:80"
-    d2:
-        image: debian
+    appweb:
+        build: ./app-web
+        # entrypoint: "bash"
+        ports: 
+            - "9090:80"
+    postgresdb:
+        image: postgres
+        ports: 
+            - "2727:5432"
         environment: 
-            ENV1: "value of env1"
-        entrypoint: bash
+            POSTGRES_USER: "user"
+            POSTGRES_PASSWORD: "password"
+

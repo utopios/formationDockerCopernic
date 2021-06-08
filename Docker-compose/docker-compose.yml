@@ -2,28 +2,44 @@ version: "3.9"
 services: 
     d1:
         image: nginx
+        container_name: d1nginx
         ports: 
             - "3002:80"
     appweb:
         build: ./app-web
+        container_name: appweb
         # entrypoint: "bash"
         ports: 
             - "9090:80"
     postgresdb:
         image: postgres
+        container_name: postgresdb
         ports: 
             - "2727:5432"
         environment: 
             POSTGRES_USER: "user"
             POSTGRES_PASSWORD: "password"
         volumes: 
-            - "data:/var/lib/postgresql/data"
+            # - "data:/var/lib/postgresql/data"
+            - "./data-postgres:/var/lib/postgresql/data"
+        # links: 
+        #     - appwebnode
     appweb2:
+        container_name: appweb2
         image: httpd
         ports: 
             - "9999:80"
         volumes: 
             - "./app-web/src:/usr/local/apache2/htdocs/"
+    appwebnode:
+        build: ./app-web-node
+        ports: 
+            - "4000:3000"
+        depends_on: 
+            - postgresdb
+        restart: always
+        # links: 
+        #     - postgresdb
 
 volumes: 
     data:

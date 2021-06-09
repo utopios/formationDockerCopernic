@@ -4,6 +4,11 @@ services:
         image: redis:5.0-alpine3.10
         networks: 
             - redis-network
+        volumes: 
+            - "./redis-check:/redis-check"
+        healthcheck:
+            test: /redis-check/script.sh
+            interval: "5s"
     db:
         image: postgres:9.4
         volumes: 
@@ -13,6 +18,9 @@ services:
             POSTGRES_PASSWORD: "postgres"
         networks: 
             - postgres-network
+        healthcheck:
+            test: "exit 0"
+            interval: "5s"
     vote:
         build: ./vote
         ports: 
@@ -32,8 +40,10 @@ services:
     worker:
         build: ./worker
         depends_on: 
-            - redis
-            - db
+            redis:
+                condition: service_healthy
+            db:
+                condition: service_healthy
         networks: 
             - redis-network
             - postgres-network
@@ -43,3 +53,5 @@ volumes:
 networks: 
     redis-network:
     postgres-network:
+
+

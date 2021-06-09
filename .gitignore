@@ -1,3 +1,5 @@
 node_modules
 */node_modules
 Docker-compose/data-postgres
+docker-registry/data
+docker-registry/auth

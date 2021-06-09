@@ -13,13 +13,14 @@ services:
         image: postgres:9.4
         volumes: 
             - "data-postgres:/var/lib/postgresql/data"
+            - "./postgres-check:/postgrescheck"
         environment: 
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
         networks: 
             - postgres-network
         healthcheck:
-            test: "exit 0"
+            test: /postgrescheck/script.sh
             interval: "5s"
     vote:
         build: ./vote

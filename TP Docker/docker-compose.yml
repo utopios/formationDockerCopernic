@@ -1,17 +1,32 @@
 version: "3.9"
 services: 
     redis:
-        image: 
-    postgres:
-        image:
+        image: redis:5.0-alpine3.10
+    db:
+        image: postgres:9.4
+        volumes: 
+            - "data-postgres:/var/lib/postgresql/data"
+        environment: 
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
     vote:
         build: ./vote
         ports: 
-            - "6000:80"
-        
+            - "4000:80"
+        depends_on: 
+            - redis  
     result:
         build: ./result
         ports:
             - "6001:4000"
+        depends_on: 
+            - db
     worker:
-        build: 
+        build: ./worker
+        depends_on: 
+            - redis
+            - db
+
+volumes: 
+    data-postgres:
+

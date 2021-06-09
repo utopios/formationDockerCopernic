@@ -8,9 +8,9 @@ COPY package*.json ./
 
 RUN npm install 
 
-COPY views /app/
-COPY server.js ./
-
+# COPY ./views /app/
+# COPY server.js ./
+COPY . .
 # ENV PORT 55
 # EXPOSE ${PORT}
 EXPOSE 4000

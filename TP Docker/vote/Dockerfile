@@ -8,9 +8,11 @@ COPY requirements.txt /app/requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY ./static /app/static
-COPY ./templates /app/templates
-COPY app.py app.py
+# COPY ./static /app/static
+# COPY ./templates /app/templates
+# COPY app.py app.py
+
+COPY . .
 
 EXPOSE 80
 

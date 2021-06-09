@@ -2,6 +2,8 @@ version: "3.9"
 services: 
     redis:
         image: redis:5.0-alpine3.10
+        networks: 
+            - redis-network
     db:
         image: postgres:9.4
         volumes: 
@@ -9,24 +11,35 @@ services:
         environment: 
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
+        networks: 
+            - postgres-network
     vote:
         build: ./vote
         ports: 
             - "4000:80"
         depends_on: 
             - redis  
+        networks: 
+            - redis-network
     result:
         build: ./result
         ports:
             - "6001:4000"
         depends_on: 
             - db
+        networks: 
+            - postgres-network
     worker:
         build: ./worker
         depends_on: 
             - redis
             - db
+        networks: 
+            - redis-network
+            - postgres-network
 
 volumes: 
     data-postgres:
-
+networks: 
+    redis-network:
+    postgres-network:

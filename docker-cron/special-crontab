@@ -1,0 +1,1 @@
+* * * * * echo "coucou" >> /var/log/test.log
